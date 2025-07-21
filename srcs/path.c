@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaizel <jmaizel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jacobmaizel <jacobmaizel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:20:59 by jmaizel           #+#    #+#             */
-/*   Updated: 2024/12/24 15:23:28 by jmaizel          ###   ########.fr       */
+/*   Updated: 2025/01/09 13:49:17 by jacobmaizel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// Sous-fonction pour libérer un tableau de chaînes alloué par ft_split
 static void	free_split(char **split)
 {
 	int	i;
@@ -49,6 +48,7 @@ static char	*build_full_path(char *dir, char *cmd)
 // Sous-fonction pour diviser la chaîne PATH en répertoires individuels
 // Utilise ft_split pour diviser la chaîne en fonction de ':'
 // Retourne un tableau de chaînes ou NULL en cas d'erreur
+
 static char	**split_paths(char *path_env)
 {
 	char	**paths;
@@ -61,6 +61,7 @@ static char	**split_paths(char *path_env)
 
 // Sous-fonction pour extraire la variable PATH des variables d'environnement
 // Retourne le pointeur vers la chaîne PATH ou NULL si non trouvé
+
 static char	*get_path_env(char **envp)
 {
 	int	i;
@@ -77,10 +78,10 @@ static char	*get_path_env(char **envp)
 
 char	*find_path(char *cmd, char **envp)
 {
-	char *path_env;
-	char **paths;
-	char *full_path;
-	int i;
+	char	*path_env;
+	char	**paths;
+	char	*full_path;
+	int		i;
 
 	path_env = get_path_env(envp);
 	if (!path_env)
@@ -93,15 +94,9 @@ char	*find_path(char *cmd, char **envp)
 	{
 		full_path = build_full_path(paths[i], cmd);
 		if (!full_path)
-		{
-			free_split(paths);
-			return (NULL);
-		}
+			return (free_split(paths), NULL);
 		if (access(full_path, X_OK) == 0)
-		{
-			free_split(paths);
-			return (full_path);
-		}
+			return (free_split(paths), full_path);
 		free(full_path);
 		i++;
 	}

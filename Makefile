@@ -12,6 +12,9 @@ SRC_DIR = ./srcs
 SRC_FILES = main.c \
 			utils.c \
 			path.c \
+			utils2.c \
+			cmd1.c \
+			cmd2.c
 
 # Création des listes d'objets
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
